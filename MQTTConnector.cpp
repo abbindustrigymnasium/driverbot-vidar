@@ -85,7 +85,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   }
 
   //Center the steering when the message is recieved
-  if (strcmp(payloadStr, "Midskepps") == 0) {
+  if (strcmp(payloadStr, "center") == 0) {
       servo.write(90);
   }
 
