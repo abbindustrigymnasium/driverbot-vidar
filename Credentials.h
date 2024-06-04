@@ -2,8 +2,9 @@
 #define ARDUINO_CREDENTIALS_H
 
 /* WiFi Credentials to connect Internet */
-#define STA_SSID "Bifrost"
-#define STA_PASS "Roggbi55"
+#define STA_SSID "ABBgym_2.4"
+#define STA_PASS "mittwifiarsabra"
+
 
 /* Provide MQTT broker credentials as denoted in maqiatto.com. */
 #define MQTT_BROKER       "maqiatto.com"

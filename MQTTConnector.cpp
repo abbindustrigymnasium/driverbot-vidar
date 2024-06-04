@@ -7,7 +7,6 @@
 #include "MQTTConnector.h"
 #include "Credentials.h"
 
-
 #include <Servo.h>
 
 Servo servo;
@@ -20,122 +19,12 @@ String clientId = "IoTPractice-" + String(ESP.getChipId());
 
 bool headlights = false;
 
-
 void startup(){
   servo.attach(D4);
   servo.write(90);
   performConnect();
   
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-  
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-  
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(100);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  delay(100);
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
-  
-  delay(500);
-
-  digitalWrite(D7, HIGH);
-  delay(500);
-  digitalWrite(D7, LOW);
+ 
 };
 /* Incoming data callback. */
 void dataCallback(char* topic, byte* payload, unsigned int length)
@@ -143,18 +32,19 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   char payloadStr[length + 1];
   strncpy(payloadStr, (char*)payload, length);
   payloadStr[length] = u8'\0';
-
+  
+  //Define pins
   pinMode(motorPinRightDir, OUTPUT);
   pinMode(motorPinRightSpeed, OUTPUT);
+  //Lights
   pinMode(D8, OUTPUT);
   pinMode(D5, OUTPUT);
   pinMode(D6, OUTPUT);
   pinMode(D7, OUTPUT);
 
-
   
   
-
+  //Forward movement after recieving the MQTT message
   if (strcmp(payloadStr, "forward") == 0) {
       int speed = 1000;
      
@@ -164,6 +54,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
  
   }
 
+  //Backwards movement after recieving the MQTT message
   if (strcmp(payloadStr, "backwards") == 0) {
       int speed = 600;
       int dir = 0;
@@ -173,21 +64,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
       
   }
 
-  /*if (strcmp(payloadStr, "backwards") == 0) {
-      
-      digitalWrite(D8, HIGH);
-      delay(500);
-      digitalWrite(D8, LOW);
-      delay(500);
-      digitalWrite(D8, HIGH);
-      delay(500);
-      digitalWrite(D8, LOW);
-      delay(500);
-      digitalWrite(D8, HIGH);
-      delay(500);
-      digitalWrite(D8, LOW);
-  }*/
-
+  //Stop when the MQTT message is recieved (It will run indefinately otherwise)
   if (strcmp(payloadStr, "STOP") == 0) {
       int speed = 0;
      
@@ -197,35 +74,22 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
  
   }
   
-
-  /*if (strcmp(payloadStr, "plattan i mattan") == 0) {
-      int speed = 1000;
-      int dir = 0;
-
-      digitalWrite(motorPinRightDir, 1);
-      analogWrite(motorPinRightSpeed, speed);
-      delay(5000);
-      analogWrite(motorPinRightSpeed, 0);
-  }*/
-
+  //Turn left when the MQTT message is recieved
   if (strcmp(payloadStr, "left") == 0) {
-      servo.write(180); // go to position 0
-      //delay(2000);
-      //servo.write(90);
-     // waits 1s for the servo to reach the position
+      servo.write(180);
   }
 
+  //Turn right when the MQTT message is recieved
   if (strcmp(payloadStr, "right") == 0) {
-      servo.write(0); // go to position 0
-      //delay(2000);
-      //servo.write(90);
-     // waits 1s for the servo to reach the position
+      servo.write(0); 
   }
 
+  //Center the steering when the message is recieved
   if (strcmp(payloadStr, "Midskepps") == 0) {
-      servo.write(90); // go to position 0   
+      servo.write(90);
   }
 
+  //Blink three times when the MQTT message is recieved
   if (strcmp(payloadStr, "blinkersV") == 0) {
       digitalWrite(D5, HIGH);
       delay(500);
@@ -240,6 +104,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
       digitalWrite(D5, LOW);
   }
 
+  //Blink three times when the MQTT message is recieved
   if (strcmp(payloadStr, "blinkersH") == 0) {
       digitalWrite(D6, HIGH);
       delay(500);
@@ -254,9 +119,9 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
       digitalWrite(D6, LOW);
   }
 
+  //Toggle the headlights when the MQTT message is recieved
   if (strcmp(payloadStr, "Headlights") == 0) {
       headlights = !headlights;
-      //toggle headlights
   }
   if ((headlights) == true) {
     digitalWrite(D7, HIGH);
@@ -267,7 +132,6 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   }
   
 }
-
 
 
 void performConnect()
@@ -328,12 +192,6 @@ void MQTTLoop()
 {
   if(mqttInitCompleted)
   {
-    /*
-    if (!MQTTIsConnected())
-    {
-      performConnect();
-    }
-    */
     mqttClient.loop();
     delayMicroseconds(12);
   }
