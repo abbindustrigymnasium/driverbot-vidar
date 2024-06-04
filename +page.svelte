@@ -10,6 +10,7 @@
   <button id="connectButton">Connect to MQTT</button>
   <button id="sendMessageButton">Send Message</button><br>
   <table>
+//Buttons
 	<tr>
 		<td></td>
 		<td><button id="W">W</button></td>
@@ -168,9 +169,9 @@ setInterval(function() {
       if (gp) {
         var axis = gp.axes[0];
         if (axis >= -0.9 && axis <= 0.9) {
-          console.log("midskepps");
+          console.log("center");
 		  const topic = 'vidar.morin@hitachigymnasiet.se/broker_driverbot'; // Change to your desired topic
-      const message = 'Midskepps'; // Change to your desired message
+      const message = 'center'; // Change to your desired message
       sendMessage(topic, message);
         }
       }
@@ -309,7 +310,7 @@ function sendMessage(topic, message) {
 	else if(event.keyCode == 16) {
         console.log('Shift was pressed');
 		const topic = 'vidar.morin@hitachigymnasiet.se/broker_driverbot'; // Change to your desired topic
-      const message = 'Midskepps'; // Change to your desired message
+      const message = 'center'; // Change to your desired message
       sendMessage(topic, message);
 	}
 
